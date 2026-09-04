@@ -1,9 +1,8 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-
-type EchoBody = {
-  message?: unknown;
-};
+import type { Context } from "hono";
+import { mcpHandler } from "./mcp";
+import { getTool, healthPayload, listToolCatalog, runTool } from "./tools";
 
 const LANDING_HTML = `<!DOCTYPE html>
 <html lang="en">
@@ -174,56 +173,72 @@ const app = new Hono();
 
 app.use("*", cors());
 
-app.get("/", (c) =>
-  c.html(LANDING_HTML),
-);
+app.get("/", (c) => c.html(LANDING_HTML));
 
-app.get("/health", (c) =>
-  c.json({
-    ok: true,
-    service: "toolbox",
-    version: "0.1.0",
-  }),
-);
+app.get("/health", (c) => c.json(healthPayload()));
 
 app.get("/tools", (c) =>
   c.json({
-    tools: [
-      {
-        name: "echo",
-        description: "Return the message you send. Useful as a smoke test.",
-        method: "POST",
-        path: "/tools/echo",
-        input: { message: "string" },
-      },
-    ],
+    tools: listToolCatalog(),
   }),
 );
 
-app.post("/tools/echo", async (c) => {
-  let body: EchoBody = {};
+app.post("/tools/:name", async (c) => {
+  const name = c.req.param("name");
+  if (!getTool(name)) {
+    return c.json(
+      {
+        error: `Unknown tool: ${name}`,
+        hint: "Try GET /tools",
+      },
+      404,
+    );
+  }
 
+  let body: unknown = {};
   try {
-    body = await c.req.json<EchoBody>();
+    body = await c.req.json();
   } catch {
-    return c.json({ error: "Expected JSON body: { \"message\": \"...\" }" }, 400);
+    const result = runTool(name, undefined);
+    if (!result.ok) {
+      return c.json({ error: result.error }, result.status);
+    }
+    return c.json(result.data);
   }
 
-  if (typeof body.message !== "string") {
-    return c.json({ error: "Field \"message\" must be a string" }, 400);
+  const result = runTool(name, body);
+  if (!result.ok) {
+    return c.json({ error: result.error }, result.status);
   }
-
-  return c.json({
-    tool: "echo",
-    result: body.message,
-  });
+  return c.json(result.data);
 });
+
+async function handleMcp(c: Context) {
+  const method = c.req.method.toUpperCase();
+  let parsedBody: unknown | undefined;
+
+  if (method === "POST" || method === "PUT" || method === "PATCH") {
+    const contentType = c.req.header("content-type") ?? "";
+    if (contentType.toLowerCase().includes("application/json")) {
+      try {
+        parsedBody = await c.req.json();
+      } catch {
+        parsedBody = undefined;
+      }
+    }
+  }
+
+  return mcpHandler.fetch(c.req.raw, { parsedBody });
+}
+
+app.all("/mcp", handleMcp);
+app.all("/mcp/*", handleMcp);
 
 app.notFound((c) =>
   c.json(
     {
       error: "Not found",
-      hint: "Try GET /health, GET /tools, or POST /tools/echo",
+      hint: "Try GET /health, GET /tools, POST /tools/:name, or /mcp",
     },
     404,
   ),
