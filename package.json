@@ -1,0 +1,23 @@
+{
+  "name": "toolbox",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Host the agent toolbox yourself, or use ours free.",
+  "type": "module",
+  "scripts": {
+    "start": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "hono": "^4.9.6"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.0.0",
+    "typescript": "^5.9.2",
+    "wrangler": "^4.33.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
