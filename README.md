@@ -2,26 +2,30 @@
 
 An agent toolbox you host, or use ours free.
 
+Package: [`opentoolbox`](https://www.npmjs.com/package/opentoolbox) · Live: [https://opentoolbox.dev](https://opentoolbox.dev)
+
 ## Two doors
 
-1. **Clone & run** — boot it on your machine (below).
+1. **Run locally** — one command on your machine.
 2. **Use ours free** — [https://opentoolbox.dev](https://opentoolbox.dev). Same binary. Same `/health` and `/tools/echo`.
 
-## Door 1 — Clone & run
+## Door 1 — Run locally
 
 Needs Node 20+.
 
 ```bash
-git clone https://github.com/mohammadameer/toolbox
-cd toolbox
-npm install && npm start
+npx opentoolbox
 ```
 
-`npm start` runs a local Workers process on [http://127.0.0.1:8787](http://127.0.0.1:8787).
+That boots a local Workers process on [http://127.0.0.1:8787](http://127.0.0.1:8787).
+
+Until the package is on npm, you can run the same bin from GitHub:
+
+```bash
+npx github:mohammadameer/toolbox
+```
 
 ### Verify (local)
-
-Health check:
 
 ```bash
 curl http://127.0.0.1:8787/health
@@ -43,6 +47,14 @@ curl -X POST http://127.0.0.1:8787/tools/echo \
 
 You should see JSON like `{"tool":"echo","result":"hello"}`.
 
+### Optional — clone from source
+
+```bash
+git clone https://github.com/mohammadameer/toolbox
+cd toolbox
+npm install && npm start
+```
+
 ## Door 2 — Use ours free
 
 Same Toolbox, hosted for you:
@@ -51,19 +63,13 @@ Same Toolbox, hosted for you:
 
 ### Verify (free host)
 
-Health check:
-
 ```bash
 curl https://opentoolbox.dev/health
 ```
 
-List tools:
-
 ```bash
 curl https://opentoolbox.dev/tools
 ```
-
-Call the echo tool (`message` must be a string):
 
 ```bash
 curl -X POST https://opentoolbox.dev/tools/echo \
@@ -86,6 +92,7 @@ npm run deploy
 - HTTP surface an agent can call
 - Health + a trivial echo tool to prove the path works
 - TypeScript on Cloudflare Workers (Wrangler)
+- `npx opentoolbox` for a local boot on `:8787`
 - Stark landing page at `/` with the two doors
 
 ## What this is not (yet)

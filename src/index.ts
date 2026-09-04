@@ -113,15 +113,9 @@ const LANDING_HTML = `<!DOCTYPE html>
   <h1>An agent toolbox you host, or use ours free.</h1>
   <div class="doors">
     <section class="door">
-      <h2>Door 1 — Clone &amp; run</h2>
-      <pre tabindex="0" data-copy>git clone https://github.com/mohammadameer/toolbox
-npm install &amp;&amp; npm start
-
-# then (local :8787)
-curl http://127.0.0.1:8787/health
-curl -X POST http://127.0.0.1:8787/tools/echo \\
-  -H 'content-type: application/json' \\
-  -d '{"message":"hello"}'</pre>
+      <h2>Door 1 — Run locally</h2>
+      <pre tabindex="0" data-copy>npx opentoolbox
+curl http://127.0.0.1:8787/health</pre>
     </section>
     <section class="door">
       <h2>Door 2 — Use ours free</h2>
