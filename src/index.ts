@@ -11,13 +11,16 @@ const LANDING_HTML = `<!DOCTYPE html>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Toolbox</title>
+  <meta name="description" content="An agent toolbox you host, or use ours free." />
   <style>
     :root {
-      --bg: #0c0c0c;
-      --fg: #d4d4d4;
-      --muted: #8a8a8a;
-      --rule: #2a2a2a;
-      --accent: #c8f542;
+      --bg: #050505;
+      --fg: #f2f2f2;
+      --muted: #9a9a9a;
+      --dim: #6e6e6e;
+      --panel: #0e0e0e;
+      --rule: #262626;
+      --prompt: #7dffa0;
     }
     * { box-sizing: border-box; }
     html, body {
@@ -25,84 +28,137 @@ const LANDING_HTML = `<!DOCTYPE html>
       min-height: 100%;
       background: var(--bg);
       color: var(--fg);
-      font-family: "IBM Plex Mono", "SF Mono", "Consolas", "Liberation Mono", monospace;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
     }
     body {
-      padding: 2.5rem 1.25rem 3rem;
-      max-width: 52rem;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3vw, 1.75rem) 1.25rem;
+    }
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 56rem;
       margin: 0 auto;
+      animation: rise 480ms ease-out both;
+    }
+    .brand {
+      margin: 0 0 0.85rem;
+      font-size: clamp(1.05rem, 2.4vw, 1.2rem);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--fg);
     }
     h1 {
-      margin: 0 0 0.5rem;
-      font-size: clamp(1.75rem, 5vw, 2.25rem);
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: var(--accent);
-    }
-    .tagline {
       margin: 0 0 2rem;
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.5;
+      max-width: 22ch;
+      font-size: clamp(1.55rem, 4.6vw, 2.35rem);
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      color: var(--fg);
     }
     .doors {
       display: grid;
-      gap: 1.25rem;
+      gap: 1rem;
     }
-    @media (min-width: 720px) {
-      .doors { grid-template-columns: 1fr 1fr; }
+    @media (min-width: 760px) {
+      .doors { grid-template-columns: 1fr 1fr; gap: 1.15rem; }
     }
     .door {
-      border: 1px solid var(--rule);
-      padding: 1rem 1rem 1.1rem;
+      display: flex;
+      flex-direction: column;
       min-width: 0;
+      background: var(--panel);
+      border: 1px solid var(--rule);
+      padding: 1rem 1rem 1.15rem;
+      animation: rise 560ms ease-out both;
     }
+    .door:nth-child(2) { animation-delay: 70ms; }
     .door h2 {
-      margin: 0 0 0.75rem;
-      font-size: 0.8rem;
+      margin: 0 0 0.85rem;
+      font-size: 0.72rem;
       font-weight: 500;
-      color: var(--muted);
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+    .door p {
+      margin: 0.85rem 0 0;
+      font-size: 0.78rem;
+      line-height: 1.45;
+      color: var(--dim);
     }
     pre {
       margin: 0;
       white-space: pre-wrap;
       word-break: break-word;
+      font: inherit;
       font-size: 0.78rem;
-      line-height: 1.55;
+      line-height: 1.6;
       color: var(--fg);
     }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    .prompt { color: var(--prompt); }
+    footer {
+      width: 100%;
+      max-width: 56rem;
+      margin: 2.5rem auto 0;
+      padding-top: 1rem;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--dim);
+      animation: rise 640ms ease-out both;
+    }
+    a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    a:hover { color: var(--fg); text-decoration: underline; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      main, .door, footer { animation: none; }
+    }
   </style>
 </head>
 <body>
-  <h1>Toolbox</h1>
-  <p class="tagline">An agent toolbox you host, or use ours free.</p>
-  <div class="doors">
-    <section class="door">
-      <h2>Door 1 — Clone &amp; run</h2>
-      <pre>git clone https://github.com/mohammadameer/toolbox
-npm install &amp;&amp; npm start
+  <main>
+    <p class="brand">Toolbox</p>
+    <h1>An agent toolbox you host, or use ours free.</h1>
+    <div class="doors">
+      <section class="door" aria-labelledby="door-1">
+        <h2 id="door-1">Door 1 — Clone &amp; run</h2>
+        <pre><span class="prompt">$</span> git clone https://github.com/mohammadameer/toolbox
+<span class="prompt">$</span> npm install &amp;&amp; npm start
 
-# then (local :8787)
-curl http://127.0.0.1:8787/health
-curl -X POST http://127.0.0.1:8787/tools/echo \\
-  -H 'content-type: application/json' \\
-  -d '{"message":"hello"}'</pre>
-    </section>
-    <section class="door">
-      <h2>Door 2 — Use ours free</h2>
-      <pre><a href="https://opentoolbox.dev">https://opentoolbox.dev</a>
-
-# same binary
-curl https://opentoolbox.dev/health
-curl -X POST https://opentoolbox.dev/tools/echo \\
-  -H 'content-type: application/json' \\
-  -d '{"message":"hello"}'</pre>
-    </section>
-  </div>
+<span class="prompt">$</span> curl http://127.0.0.1:8787/health
+<span class="prompt">$</span> curl -X POST http://127.0.0.1:8787/tools/echo \\
+    -H 'content-type: application/json' \\
+    -d '{"message":"hello"}'</pre>
+        <p>Same binary. Same routes. Local on :8787.</p>
+      </section>
+      <section class="door" aria-labelledby="door-2">
+        <h2 id="door-2">Door 2 — Use ours free</h2>
+        <pre><span class="prompt">$</span> curl https://opentoolbox.dev/health
+<span class="prompt">$</span> curl -X POST https://opentoolbox.dev/tools/echo \\
+    -H 'content-type: application/json' \\
+    -d '{"message":"hello"}'</pre>
+        <p>Same binary. Same routes.</p>
+      </section>
+    </div>
+  </main>
+  <footer>
+    <a href="https://github.com/mohammadameer/toolbox">github.com/mohammadameer/toolbox</a>
+    <a href="https://opentoolbox.dev">opentoolbox.dev</a>
+  </footer>
 </body>
 </html>`;
 
@@ -110,9 +166,7 @@ const app = new Hono();
 
 app.use("*", cors());
 
-app.get("/", (c) =>
-  c.html(LANDING_HTML),
-);
+app.get("/", (c) => c.html(LANDING_HTML));
 
 app.get("/health", (c) =>
   c.json({
@@ -142,11 +196,11 @@ app.post("/tools/echo", async (c) => {
   try {
     body = await c.req.json<EchoBody>();
   } catch {
-    return c.json({ error: "Expected JSON body: { \"message\": \"...\" }" }, 400);
+    return c.json({ error: 'Expected JSON body: { "message": "..." }' }, 400);
   }
 
   if (typeof body.message !== "string") {
-    return c.json({ error: "Field \"message\" must be a string" }, 400);
+    return c.json({ error: 'Field "message" must be a string' }, 400);
   }
 
   return c.json({
