@@ -1,28 +1,25 @@
 # Toolbox
 
-Host the agent toolbox yourself, or use ours free.
-
-An installable agent toolbox you can run locally (or self-host). The same binary will power a free hosted instance later.
+An agent toolbox you host, or use ours free.
 
 ## Two doors
 
 1. **Clone & run** — boot it on your machine (below).
-2. **Use ours free** — coming soon. Same Toolbox, hosted for you.
+2. **Use ours free** — [https://toolbox.mohammadameer.workers.dev](https://toolbox.mohammadameer.workers.dev). Same binary. Same `/health` and `/tools/echo`.
 
-## Quick start
+## Door 1 — Clone & run
 
 Needs Node 20+.
 
 ```bash
-git clone https://github.com/mohammadameer/toolbox.git
+git clone https://github.com/mohammadameer/toolbox
 cd toolbox
-npm install
-npm start
+npm install && npm start
 ```
 
 `npm start` runs a local Workers process on [http://127.0.0.1:8787](http://127.0.0.1:8787).
 
-## Verify
+### Verify (local)
 
 Health check:
 
@@ -36,10 +33,40 @@ List tools:
 curl http://127.0.0.1:8787/tools
 ```
 
-Call the echo tool:
+Call the echo tool (`message` must be a string):
 
 ```bash
 curl -X POST http://127.0.0.1:8787/tools/echo \
+  -H 'content-type: application/json' \
+  -d '{"message":"hello"}'
+```
+
+You should see JSON like `{"tool":"echo","result":"hello"}`.
+
+## Door 2 — Use ours free
+
+Same Toolbox, hosted for you:
+
+[https://toolbox.mohammadameer.workers.dev](https://toolbox.mohammadameer.workers.dev)
+
+### Verify (free host)
+
+Health check:
+
+```bash
+curl https://toolbox.mohammadameer.workers.dev/health
+```
+
+List tools:
+
+```bash
+curl https://toolbox.mohammadameer.workers.dev/tools
+```
+
+Call the echo tool (`message` must be a string):
+
+```bash
+curl -X POST https://toolbox.mohammadameer.workers.dev/tools/echo \
   -H 'content-type: application/json' \
   -d '{"message":"hello"}'
 ```
