@@ -5,7 +5,7 @@ An agent toolbox you host, or use ours free.
 ## Two doors
 
 1. **Clone & run** — boot it on your machine (below).
-2. **Use ours free** — [https://toolbox.mohammadameer.workers.dev](https://toolbox.mohammadameer.workers.dev). Same binary. Same `/health` and `/tools/echo`.
+2. **Use ours free** — [https://opentoolbox.dev](https://opentoolbox.dev). Same binary. Same `/health` and `/tools/echo`.
 
 ## Door 1 — Clone & run
 
@@ -47,26 +47,26 @@ You should see JSON like `{"tool":"echo","result":"hello"}`.
 
 Same Toolbox, hosted for you:
 
-[https://toolbox.mohammadameer.workers.dev](https://toolbox.mohammadameer.workers.dev)
+[https://opentoolbox.dev](https://opentoolbox.dev)
 
 ### Verify (free host)
 
 Health check:
 
 ```bash
-curl https://toolbox.mohammadameer.workers.dev/health
+curl https://opentoolbox.dev/health
 ```
 
 List tools:
 
 ```bash
-curl https://toolbox.mohammadameer.workers.dev/tools
+curl https://opentoolbox.dev/tools
 ```
 
 Call the echo tool (`message` must be a string):
 
 ```bash
-curl -X POST https://toolbox.mohammadameer.workers.dev/tools/echo \
+curl -X POST https://opentoolbox.dev/tools/echo \
   -H 'content-type: application/json' \
   -d '{"message":"hello"}'
 ```
@@ -86,6 +86,7 @@ npm run deploy
 - HTTP surface an agent can call
 - Health + a trivial echo tool to prove the path works
 - TypeScript on Cloudflare Workers (Wrangler)
+- Stark landing page at `/` with the two doors
 
 ## What this is not (yet)
 
