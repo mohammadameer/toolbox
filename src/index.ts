@@ -48,9 +48,12 @@ const LANDING_HTML = `<!DOCTYPE html>
       letter-spacing: -0.01em;
     }
     .same {
-      margin: 0 0 2rem;
+      margin: 0;
       color: var(--muted);
       font-size: 0.8rem;
+    }
+    .same + .same {
+      margin: 0.35rem 0 2rem;
     }
     .doors {
       display: grid;
@@ -123,6 +126,7 @@ const LANDING_HTML = `<!DOCTYPE html>
   <p class="wordmark">Toolbox</p>
   <h1>An agent toolbox you host, or use ours free.</h1>
   <p class="same">Same binary.</p>
+  <p class="same">Use it via API · MCP · CLI</p>
   <div class="doors">
     <section class="door">
       <h2>Door 1 — Run locally</h2>
