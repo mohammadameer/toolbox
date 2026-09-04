@@ -1,23 +1,27 @@
 # Toolbox
 
-An agent toolbox you host, or use ours free.
+An agent toolbox you host, or use ours free. Same binary.
 
 ## Two doors
 
-1. **Clone & run** — boot it on your machine (below).
+1. **Run it** — one command boots the same binary on your machine (below).
 2. **Use ours free** — [https://opentoolbox.dev](https://opentoolbox.dev). Same binary. Same `/health` and `/tools/echo`.
 
-## Door 1 — Clone & run
+## Door 1 — Run it
 
 Needs Node 20+.
 
 ```bash
-git clone https://github.com/mohammadameer/toolbox
-cd toolbox
-npm install && npm start
+npx opentoolbox
 ```
 
-`npm start` runs a local Workers process on [http://127.0.0.1:8787](http://127.0.0.1:8787).
+That boots the same binary on [http://127.0.0.1:8787](http://127.0.0.1:8787).
+
+Until npm publish lands, you can use:
+
+```bash
+npx github:mohammadameer/toolbox
+```
 
 ### Verify (local)
 
