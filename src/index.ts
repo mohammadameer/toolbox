@@ -15,11 +15,11 @@ const LANDING_HTML = `<!DOCTYPE html>
   <style>
     :root {
       --bg: #050505;
-      --fg: #f2f2f2;
-      --muted: #9a9a9a;
-      --dim: #6e6e6e;
-      --panel: #0e0e0e;
-      --rule: #262626;
+      --fg: #f5f5f5;
+      --muted: #a3a3a3;
+      --dim: #7a7a7a;
+      --panel: #111111;
+      --rule: #2e2e2e;
       --prompt: #7dffa0;
     }
     * { box-sizing: border-box; }
@@ -41,7 +41,7 @@ const LANDING_HTML = `<!DOCTYPE html>
       width: 100%;
       max-width: 56rem;
       margin: 0 auto;
-      animation: rise 480ms ease-out both;
+      animation: rise 420ms ease-out;
     }
     .brand {
       margin: 0 0 0.85rem;
@@ -74,9 +74,9 @@ const LANDING_HTML = `<!DOCTYPE html>
       background: var(--panel);
       border: 1px solid var(--rule);
       padding: 1rem 1rem 1.15rem;
-      animation: rise 560ms ease-out both;
+      animation: rise 480ms ease-out;
     }
-    .door:nth-child(2) { animation-delay: 70ms; }
+    .door:nth-child(2) { animation-delay: 60ms; }
     .door h2 {
       margin: 0 0 0.85rem;
       font-size: 0.72rem;
@@ -113,7 +113,7 @@ const LANDING_HTML = `<!DOCTYPE html>
       justify-content: space-between;
       font-size: 0.75rem;
       color: var(--dim);
-      animation: rise 640ms ease-out both;
+      animation: rise 520ms ease-out;
     }
     a {
       color: var(--muted);
@@ -121,8 +121,8 @@ const LANDING_HTML = `<!DOCTYPE html>
     }
     a:hover { color: var(--fg); text-decoration: underline; }
     @keyframes rise {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: none; }
+      from { transform: translateY(5px); }
+      to { transform: none; }
     }
     @media (prefers-reduced-motion: reduce) {
       main, .door, footer { animation: none; }
