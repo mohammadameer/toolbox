@@ -14,13 +14,12 @@ const LANDING_HTML = `<!DOCTYPE html>
   <meta name="description" content="An agent toolbox you host, or use ours free." />
   <style>
     :root {
-      --bg: #050505;
-      --fg: #f5f5f5;
-      --muted: #a3a3a3;
-      --dim: #7a7a7a;
+      --bg: #0a0a0a;
+      --fg: #eaeaea;
+      --muted: #737373;
       --panel: #111111;
-      --rule: #2e2e2e;
-      --prompt: #7dffa0;
+      --rule: #2a2a2a;
+      --flash: #3dd68c;
     }
     * { box-sizing: border-box; }
     html, body {
@@ -31,102 +30,96 @@ const LANDING_HTML = `<!DOCTYPE html>
       font-family: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
     }
     body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3vw, 1.75rem) 1.25rem;
+      padding: 12vh 1.25rem 2rem;
     }
     main {
-      flex: 1;
       width: 100%;
-      max-width: 56rem;
+      max-width: 720px;
       margin: 0 auto;
-      animation: rise 420ms ease-out;
     }
     .brand {
-      margin: 0 0 0.85rem;
-      font-size: clamp(1.05rem, 2.4vw, 1.2rem);
-      font-weight: 600;
+      margin: 0 0 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 500;
       letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--fg);
+      color: var(--muted);
     }
     h1 {
-      margin: 0 0 2rem;
+      margin: 0 0 1.75rem;
       max-width: 22ch;
-      font-size: clamp(1.55rem, 4.6vw, 2.35rem);
+      font-size: clamp(1.45rem, 4.2vw, 1.85rem);
       font-weight: 500;
-      line-height: 1.2;
-      letter-spacing: -0.03em;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
       color: var(--fg);
     }
     .doors {
       display: grid;
-      gap: 1rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items: stretch;
     }
-    @media (min-width: 760px) {
-      .doors { grid-template-columns: 1fr 1fr; gap: 1.15rem; }
+    @media (max-width: 640px) {
+      .doors { grid-template-columns: 1fr; }
     }
     .door {
       display: flex;
       flex-direction: column;
       min-width: 0;
+      min-height: 100%;
       background: var(--panel);
       border: 1px solid var(--rule);
-      padding: 1rem 1rem 1.15rem;
-      animation: rise 480ms ease-out;
+      border-radius: 8px;
+      padding: 18px;
     }
-    .door:nth-child(2) { animation-delay: 60ms; }
     .door h2 {
       margin: 0 0 0.85rem;
       font-size: 0.72rem;
       font-weight: 500;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--muted);
     }
-    .door p {
-      margin: 0.85rem 0 0;
-      font-size: 0.78rem;
-      line-height: 1.45;
-      color: var(--dim);
-    }
-    pre {
+    .code {
+      position: relative;
+      flex: 1;
       margin: 0;
+      padding: 0;
+      background: transparent;
+      border: 0;
       white-space: pre-wrap;
       word-break: break-word;
       font: inherit;
       font-size: 0.78rem;
       line-height: 1.6;
       color: var(--fg);
+      text-align: left;
+      cursor: pointer;
     }
-    .prompt { color: var(--prompt); }
+    .code:focus-visible {
+      outline: 1px solid var(--flash);
+      outline-offset: 4px;
+    }
+    .code.copied {
+      color: var(--flash);
+    }
+    .hint {
+      margin: 0.85rem 0 0;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
     footer {
-      width: 100%;
-      max-width: 56rem;
-      margin: 2.5rem auto 0;
+      margin: 2rem auto 0;
+      max-width: 720px;
       padding-top: 1rem;
       border-top: 1px solid var(--rule);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem 1.25rem;
-      justify-content: space-between;
       font-size: 0.75rem;
-      color: var(--dim);
-      animation: rise 520ms ease-out;
     }
     a {
       color: var(--muted);
       text-decoration: none;
     }
     a:hover { color: var(--fg); text-decoration: underline; }
-    @keyframes rise {
-      from { transform: translateY(5px); }
-      to { transform: none; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      main, .door, footer { animation: none; }
-    }
   </style>
 </head>
 <body>
@@ -136,29 +129,37 @@ const LANDING_HTML = `<!DOCTYPE html>
     <div class="doors">
       <section class="door" aria-labelledby="door-1">
         <h2 id="door-1">Door 1 — Clone &amp; run</h2>
-        <pre><span class="prompt">$</span> git clone https://github.com/mohammadameer/toolbox
-<span class="prompt">$</span> npm install &amp;&amp; npm start
-
-<span class="prompt">$</span> curl http://127.0.0.1:8787/health
-<span class="prompt">$</span> curl -X POST http://127.0.0.1:8787/tools/echo \\
-    -H 'content-type: application/json' \\
-    -d '{"message":"hello"}'</pre>
-        <p>Same binary. Same routes. Local on :8787.</p>
+        <button class="code" type="button" data-copy title="Copy">npx opentoolbox
+curl http://127.0.0.1:8787/health
+curl -X POST http://127.0.0.1:8787/tools/echo \\
+  -H 'content-type: application/json' \\
+  -d '{"message":"hello"}'</button>
+        <p class="hint">Same binary. Same routes. Local on :8787.</p>
       </section>
       <section class="door" aria-labelledby="door-2">
         <h2 id="door-2">Door 2 — Use ours free</h2>
-        <pre><span class="prompt">$</span> curl https://opentoolbox.dev/health
-<span class="prompt">$</span> curl -X POST https://opentoolbox.dev/tools/echo \\
-    -H 'content-type: application/json' \\
-    -d '{"message":"hello"}'</pre>
-        <p>Same binary. Same routes.</p>
+        <button class="code" type="button" data-copy title="Copy">curl https://opentoolbox.dev/health
+curl -X POST https://opentoolbox.dev/tools/echo \\
+  -H 'content-type: application/json' \\
+  -d '{"message":"hello"}'</button>
+        <p class="hint">Same binary. Same routes.</p>
       </section>
     </div>
   </main>
   <footer>
     <a href="https://github.com/mohammadameer/toolbox">github.com/mohammadameer/toolbox</a>
-    <a href="https://opentoolbox.dev">opentoolbox.dev</a>
   </footer>
+  <script>
+    document.querySelectorAll("[data-copy]").forEach((el) => {
+      el.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(el.textContent || "");
+          el.classList.add("copied");
+          window.setTimeout(() => el.classList.remove("copied"), 700);
+        } catch {}
+      });
+    });
+  </script>
 </body>
 </html>`;
 
