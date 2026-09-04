@@ -1,23 +1,46 @@
 {
-  "name": "toolbox",
+  "name": "opentoolbox",
   "version": "0.1.0",
-  "private": true,
-  "description": "Host the agent toolbox yourself, or use ours free.",
+  "description": "An agent toolbox you host, or use ours free.",
   "type": "module",
+  "bin": {
+    "opentoolbox": "./bin/opentoolbox.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "wrangler.toml",
+    "tsconfig.json"
+  ],
   "scripts": {
-    "start": "wrangler dev",
+    "start": "wrangler dev --ip 127.0.0.1 --port 8787",
     "deploy": "wrangler deploy",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "hono": "^4.9.6"
+    "hono": "^4.9.6",
+    "wrangler": "^4.33.1"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^5.0.0",
-    "typescript": "^5.9.2",
-    "wrangler": "^4.33.1"
+    "typescript": "^5.9.2"
   },
   "engines": {
     "node": ">=20"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohammadameer/toolbox.git"
+  },
+  "homepage": "https://opentoolbox.dev",
+  "bugs": {
+    "url": "https://github.com/mohammadameer/toolbox/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "agents",
+    "toolbox",
+    "cloudflare-workers",
+    "opentoolbox"
+  ]
 }
