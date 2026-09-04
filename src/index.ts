@@ -41,12 +41,17 @@ const LANDING_HTML = `<!DOCTYPE html>
       letter-spacing: 0.02em;
     }
     h1 {
-      margin: 0 0 2rem;
+      margin: 0 0 0.5rem;
       color: var(--text);
       font-size: clamp(1.15rem, 2.6vw, 1.35rem);
       font-weight: 500;
       line-height: 1.45;
       letter-spacing: -0.01em;
+    }
+    .same {
+      margin: 0 0 2rem;
+      color: var(--muted);
+      font-size: 0.8rem;
     }
     .doors {
       display: grid;
@@ -96,6 +101,13 @@ const LANDING_HTML = `<!DOCTYPE html>
       outline: 1px solid var(--flash);
       outline-offset: 2px;
     }
+    .copy-hint {
+      margin: 0.55rem 0 0;
+      color: var(--muted);
+      font-size: 0.65rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
     footer {
       margin-top: 2.25rem;
       color: var(--muted);
@@ -111,21 +123,20 @@ const LANDING_HTML = `<!DOCTYPE html>
 <body>
   <p class="wordmark">Toolbox</p>
   <h1>An agent toolbox you host, or use ours free.</h1>
+  <p class="same">Same binary.</p>
   <div class="doors">
     <section class="door">
       <h2>Door 1 — Run locally</h2>
-      <pre tabindex="0" data-copy>npx opentoolbox
-curl http://127.0.0.1:8787/health</pre>
+      <pre tabindex="0" data-copy title="Click to copy">npx opentoolbox</pre>
+      <p class="copy-hint">click to copy</p>
     </section>
     <section class="door">
       <h2>Door 2 — Use ours free</h2>
-      <pre tabindex="0" data-copy>https://opentoolbox.dev
-
-# same binary
-curl https://opentoolbox.dev/health
+      <pre tabindex="0" data-copy title="Click to copy">curl https://opentoolbox.dev/health
 curl -X POST https://opentoolbox.dev/tools/echo \\
   -H 'content-type: application/json' \\
   -d '{"message":"hello"}'</pre>
+      <p class="copy-hint">click to copy</p>
     </section>
   </div>
   <footer>
