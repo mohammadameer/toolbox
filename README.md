@@ -79,6 +79,45 @@ curl -X POST https://opentoolbox.dev/tools/echo \
 
 You should see JSON like `{"tool":"echo","result":"hello"}`.
 
+## Use via MCP
+
+Same tools over Streamable HTTP. Not a third landing door — point an MCP client at `/mcp` after Door 1 or Door 2.
+
+Local (after `npx opentoolbox`):
+
+```text
+http://127.0.0.1:8787/mcp
+```
+
+Free host:
+
+```text
+https://opentoolbox.dev/mcp
+```
+
+Example client config:
+
+```json
+{
+  "mcpServers": {
+    "opentoolbox": {
+      "url": "http://127.0.0.1:8787/mcp"
+    }
+  }
+}
+```
+
+Smoke test (lists tools; `echo` is there):
+
+```bash
+curl -s -X POST http://127.0.0.1:8787/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+```
+
+Call `echo` the same way with `tools/call` and `{"name":"echo","arguments":{"message":"hello"}}`.
+
 ## Deploy (optional)
 
 Same code deploys to Cloudflare Workers:
@@ -90,6 +129,7 @@ npm run deploy
 ## What this is (v1)
 
 - HTTP surface an agent can call
+- MCP Streamable HTTP at `/mcp` (same tool registry as `/tools`)
 - Health + a trivial echo tool to prove the path works
 - TypeScript on Cloudflare Workers (Wrangler)
 - `npx opentoolbox` for a local boot on `:8787`
